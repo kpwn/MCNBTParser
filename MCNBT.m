@@ -11,7 +11,10 @@
 */
 
 #import "MCNBT.h"
+#import "NSData+UserAdditions.h"
 #import <objc/runtime.h>
+
+char gzip_signature[] = {0x1F, 0x8B, 0x08};
 
 typedef enum MCNBTTag
 {
@@ -120,7 +123,7 @@ long long l;
         {
             id onode = *node;
             *node = [[NSMutableDictionary new] autorelease];
-            objc_setAssociatedObject(*node, "Supernode", onode, OBJC_ASSOCIATION_RETAIN);
+            objc_setAssociatedObject(*node, "Supernode", onode, OBJC_ASSOCIATION_ASSIGN);
             (*depth)++;
             return *node;
             break;
@@ -190,5 +193,13 @@ long long l;
 +(NSDictionary*)NBTWithRawData:(NSData*)data
 {
     return [self NBTWithBytes:[data bytes] andLen:[data length]];
+}
++(NSDictionary*)NBTWithData:(NSData*)data
+{
+    if (memcmp([data bytes], gzip_signature, 3) == 0)
+	{
+		data = [data gzipInflate];
+	}
+    return [self NBTWithRawData:data];
 }
 @end

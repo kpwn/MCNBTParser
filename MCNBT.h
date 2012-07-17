@@ -10,4 +10,5 @@
 
 @interface MCNBT : NSObject
 +(NSDictionary*)NBTWithRawData:(NSData*)data;
++(NSDictionary*)NBTWithData:(NSData*)data;
 @end

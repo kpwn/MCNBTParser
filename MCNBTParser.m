@@ -3,9 +3,6 @@
 */
 
 #import "MCNBT.h"
-#import "NSData+UserAdditions.h"
-
-char gzip_signature[] = {0x1F, 0x8B, 0x08};
 
 int main(int argc, char** argv, char** envp)
 {
@@ -23,10 +20,6 @@ int main(int argc, char** argv, char** envp)
 		printf("[-] couldn't open %s\n", argv[1]);
 		return -2;
 	}
-	if (memcmp([data bytes], gzip_signature, 3) == 0)
-	{
-		data = [data gzipInflate];
-	}
-	[[MCNBT NBTWithRawData:data] writeToFile:[NSString stringWithUTF8String:outfile] atomically:NO];
+	[[MCNBT NBTWithData:data] writeToFile:[NSString stringWithUTF8String:outfile] atomically:NO];
 	[pool drain];
 }
