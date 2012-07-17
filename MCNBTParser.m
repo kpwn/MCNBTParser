@@ -13,7 +13,7 @@ int main(int argc, char** argv, char** envp)
 	if(!argv[1])
 	{
 		printf("[i] MCNBTParser - (c) 2012 qwertyoruiop\n[?] usage: %s <nbt> [out]\nnbt: input NBT file\nout: output plist file, /dev/stdout if not specified\n", argv[0]);
-		return;
+		return -1;
 	}
 	const char* outfile = argv[2];
 	if (!outfile) outfile = "/dev/stdout";
@@ -21,6 +21,7 @@ int main(int argc, char** argv, char** envp)
 	if (!data)
 	{
 		printf("[-] couldn't open %s\n", argv[1]);
+		return -2;
 	}
 	if (memcmp([data bytes], gzip_signature, 3) == 0)
 	{
