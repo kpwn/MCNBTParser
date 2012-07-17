@@ -1,1 +1,2 @@
-gcc *.m -o MCNBTParser -framework Foundation -lz -lssl -lcrypto
+all:
+	gcc *.m -o MCNBTParser -framework Foundation -lz -lssl -lcrypto
